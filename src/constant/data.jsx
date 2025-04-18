@@ -20,24 +20,24 @@ import {
 
 // backend api endpoints
 export const USER_API_ENDPOINT =
-  "https://portfolio-server-theta-cyan.vercel.app/api/v1/user";
+  "https://backend-puce-xi.vercel.app/api/v1/user";
 
 export const EDUCATION_API_ENDPOINT =
-  "https://portfolio-server-theta-cyan.vercel.app/api/v1/education";
+  "https://backend-puce-xi.vercel.app/api/v1/education";
 
 export const EXPERIENCE_API_ENDPOINT =
-  "https://portfolio-server-theta-cyan.vercel.app/api/v1/experience";
+  "https://backend-puce-xi.vercel.app/api/v1/experience";
 
 export const COURSE_API_ENDPOINT =
-  "https://portfolio-server-theta-cyan.vercel.app/api/v1/course";
+  "https://backend-puce-xi.vercel.app/api/v1/course";
 export const EXPERTISE_API_ENDPOINT =
-  "https://portfolio-server-theta-cyan.vercel.app/api/v1/expertise";
+  "https://backend-puce-xi.vercel.app/api/v1/expertise";
 
 export const PROJECTS_API_ENDPOINT =
-  "https://portfolio-server-theta-cyan.vercel.app/api/v1/projects";
+  "https://backend-puce-xi.vercel.app/api/v1/projects";
 
 export const MESSAGE_API_ENDPOINT =
-  "https://portfolio-server-theta-cyan.vercel.app/api/v1/messages";
+  "https://backend-puce-xi.vercel.app/api/v1/messages";
 
 export const heroDataRoles = [
   { text: "Front-End Developer" },
