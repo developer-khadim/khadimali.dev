@@ -10,7 +10,7 @@ import { FiGithub, FiPhone } from "react-icons/fi";
 import { HiOutlineMail } from "react-icons/hi";
 import { LuLinkedin } from "react-icons/lu";
 import { NavItems, USER_API_ENDPOINT } from "../constant/data";
-import useGetData from "../Hooks/useGetData";
+import useGetData from "../hooks/useGetData";
 
 const Navbar = () => {
   const { data: userData } = useGetData(`${USER_API_ENDPOINT}/profile`);
