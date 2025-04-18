@@ -10,7 +10,7 @@ import { FiGithub, FiPhone } from "react-icons/fi";
 import { HiOutlineMail } from "react-icons/hi";
 import { LuLinkedin } from "react-icons/lu";
 import { NavItems, USER_API_ENDPOINT } from "../constant/data";
-import useGetData from "../hooks/useGetData";
+import useGetData from "../Hooks/useGetData";
 
 const Navbar = () => {
   const { data: userData } = useGetData(`${USER_API_ENDPOINT}/profile`);
@@ -54,7 +54,7 @@ const Navbar = () => {
   }, []);
 
   const user = userData?.user || {
-    name: "Abdul Ali",
+    name: "Khadim Ali",
     email: "ab.ali.soomro@gmail.com",
     aboutText:
       "Experienced React Frontend Developer specializing in crafting scalable, high-performance web applications.",

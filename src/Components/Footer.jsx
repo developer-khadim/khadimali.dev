@@ -17,7 +17,7 @@ const Footer = () => {
         <div className="flex flex-col sm:flex-row items-center sm:items-end gap-4 sm:gap-4">
           <Logo />
           <p className="text-center text-gray-600 dark:text-gray-400 text-sm">
-            © {new Date().getFullYear()} Developed by Abdul Ali. All rights
+            © {new Date().getFullYear()} Developed by Khadim Ali. All rights
             reserved.
           </p>
         </div>

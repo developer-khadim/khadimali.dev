@@ -46,7 +46,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
           <div className="flex items-center justify-between px-6 py-[18px] border-b border-gray-200 dark:border-gray-700">
             <div className="flex items-center space-x-3">
               <h1 className="text-lg font-bold text-primary dark:text-secondary">
-                Welcome to {user?.name || "Abdul Ali"}
+                Welcome to {user?.name || "Khadim Ali"}
               </h1>
             </div>
             <div className="lg:hidden">

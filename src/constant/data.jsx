@@ -7,7 +7,6 @@ import {
   PiMedal,
   PiStarFour,
 } from "react-icons/pi";
-import { SiFreelancer, SiNextdotjs } from "react-icons/si";
 
 import {
   Home,
@@ -30,7 +29,8 @@ export const EXPERIENCE_API_ENDPOINT =
 
 export const COURSE_API_ENDPOINT =
   "https://backend-puce-xi.vercel.app/api/v1/course";
-export const EXPERTISE_API_ENDPOINT =
+
+export const EXPERTISE_API_ENDPOINT = 
   "https://backend-puce-xi.vercel.app/api/v1/expertise";
 
 export const PROJECTS_API_ENDPOINT =
@@ -42,7 +42,7 @@ export const MESSAGE_API_ENDPOINT =
 export const heroDataRoles = [
   { text: "Front-End Developer" },
   { text: "React js Developer" },
-  { text: "Builder of Seamless Web Experiences" },
+  { text: "Builder of Seamless Web Experiences"  },
   { text: "Next js Developer" },
   { text: "Freelancer" },
 ];

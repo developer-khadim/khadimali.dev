@@ -16,7 +16,7 @@ const PageNotFound = () => {
   const { data: userData } = useGetData(`${USER_API_ENDPOINT}/profile`);
 
   const user = userData?.user || {
-    name: "Abdul Ali",
+    name: "Khadim Ali",
     email: "ab.ali.soomro@gmail.com",
     aboutText:
       "Experienced React Frontend Developer specializing in crafting scalable, high-performance web applications.",
