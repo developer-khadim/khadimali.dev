@@ -42,6 +42,7 @@ export const MESSAGE_API_ENDPOINT =
 export const heroDataRoles = [
   { text: "Front-End Developer" },
   { text: "React js Developer" },
+  { text: "Builder of Seamless Web Experiences" },
   { text: "Next js Developer" },
   { text: "Freelancer" },
 ];
@@ -83,8 +84,3 @@ export const NavItems = [
   { id: "projects", icon: FolderGit2, label: "Projects", to: "#projects" },
   { id: "contact", icon: Contact, label: "Contact", to: "#contact" },
 ];
-
-// {
-//   text: "Pixel-Perfect UI Creator",
-//   icon: <FaPalette className="w-6 h-6 text-primary" />,
-// },

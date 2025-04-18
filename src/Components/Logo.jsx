@@ -11,7 +11,7 @@ const Logo = () => {
       aria-label="Go to home section"
     >
       <span className="flex gap-1.5 text-sm font-bold text-indigo-700 dark:text-gray-300 select-none py-1.5 px-2">
-        <span className="relative top-[-2px] sm:top-[2px]">{`<Abdul Ali />`}</span>
+        <span className="relative top-[-2px] sm:top-[2px]">{`{ Khadim.dev }`}</span>
       </span>
     </a>
   );

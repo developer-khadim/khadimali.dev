@@ -36,6 +36,7 @@ const Code = () => {
         </p>
       </div>
       <SkillsCards />
+      
     </div>
   );
 };

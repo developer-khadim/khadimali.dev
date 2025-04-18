@@ -4,6 +4,7 @@ import { PiCompassToolDuotone } from "react-icons/pi";
 import useGetData from "../hooks/useGetData";
 import { FiLoader } from "react-icons/fi";
 import { EXPERTISE_API_ENDPOINT } from "../constant/data";
+import MiniCard from "./MiniCard"
 
 // Define the descriptions based on index
 const categoryDescriptions = [
@@ -154,6 +155,7 @@ const SkillsCards = () => {
           );
         })}
       </div>
+      <MiniCard/>
     </section>
   );
 };
