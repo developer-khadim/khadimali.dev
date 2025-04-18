@@ -1,0 +1,100 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.hidden-scrollbar {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+}
+
+.hidden-scrollbar::-webkit-scrollbar {
+  display: none !important;
+}
+
+:root {
+  --primary: #ad3187;
+  --secondary: #ffcc00;
+}
+.body {
+  margin: 0;
+  padding: 0;
+}
+
+.dark {
+  --primary: #d14ba7;
+  --secondary: #ffd633;
+}
+.flip-horizontal {
+  transform: scaleX(-1);
+}
+
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin-slow {
+  animation: spin-slow 4s linear infinite;
+}
+
+/* From Uiverse.io by Yaya12085 */
+.loader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  gap: 10px;
+}
+.loader span {
+  display: flex;
+  align-items: center;
+  text-transform: capitalize;
+  justify-content: center;
+  font-family: sans-serif;
+  font-weight: bold;
+  color: #aa41fe;
+  background-color: #dbd5f3;
+  border-radius: 8px;
+  min-width: 40px;
+  animation: peek 1s both infinite;
+  animation-delay: var(--d);
+}
+
+@keyframes peek {
+  25% {
+    transform: rotateX(30deg) rotate(-13deg);
+  }
+  50% {
+    transform: translateY(-22px) rotate(3deg) scale(1.1);
+    color: #6a45ed;
+  }
+}
+
+.react-tel-input .form-control:focus,
+input:focus,
+textarea:focus {
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+.react-tel-input .form-control {
+  all: unset !important;
+  @apply w-[85%] pl-[42px] pr-[1px] md:pr-[7px] md:pl-[44px] lg:pl-[45px] xl:pr-7 lg:pr-3 py-3 bg-gray-100 dark:bg-gray-700/50 border-0 rounded-lg text-[#4f46e5] dark:text-[#fff] placeholder-gray-500 dark:placeholder-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 transition-all duration-300 !important;
+}
+.phone-button {
+  border: none !important;
+}
+
+.selected-flag {
+  border-radius: 20% 0% 0% 20% !important;
+}
+
+.selected-flag:hover {
+  background-color: rgba(128, 128, 128, 0.098) !important;
+}
