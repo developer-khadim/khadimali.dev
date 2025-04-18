@@ -1,6 +1,3 @@
-
-
-
 import React, { useState, useEffect } from "react";
 import { FiGithub, FiPhone } from "react-icons/fi";
 import { LuLinkedin } from "react-icons/lu";
@@ -17,6 +14,7 @@ import {
 } from "../AnimationVariants/variants.";
 import { heroDataRoles, USER_API_ENDPOINT } from "../constant/data";
 import axios from "axios";
+
 
 const Hero = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -49,6 +47,14 @@ const Hero = () => {
     phone: "+923490393306",
     githubURL: "https://www.github.com/developer-khadim",
     linkedinURL: "https://www.linkedin.com/in/khadim-ali12",
+  };
+
+  const handleResumeClick = () => {
+    window.open(
+      "https://drive.google.com/file/d/1Iuo1bIFtWIneVVOLMPuXL8rk-m4FBLn7/view?usp=sharing",
+      "_blank",
+      "noopener,noreferrer"
+    );
   };
 
   return (
@@ -135,7 +141,7 @@ const Hero = () => {
               whileTap={{ scale: 0.95 }}
             >
               <a
-                href="/resume"
+                onClick={handleResumeClick}
                 className="group flex items-center justify-center gap-2 bg-primary text-white px-5 py-2.5 sm:px-6 sm:py-3 rounded-lg hover:bg-primary/90 transition-all duration-300 text-sm sm:text-base md:text-lg font-medium w-full sm:w-auto hover:shadow-lg"
               >
                 <motion.span

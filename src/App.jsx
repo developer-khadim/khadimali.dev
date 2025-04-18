@@ -18,6 +18,7 @@ import AllMessages from "../src/Pages/Dashboard/Pages/AllMessages.jsx";
 import Loader from "./Components/Loader.jsx";
 import PageNotFound from "./Components/PageNotFound.jsx";
 import GoToTopButton from "./Components/GoToTop.jsx";
+import Resume from "./Components/Resume/Resume.jsx"
 
 const router = createBrowserRouter(
   [
@@ -27,6 +28,7 @@ const router = createBrowserRouter(
       children: [{ index: true, element: <Landing /> }],
     },
     { path: "/login", element: <AdminLogin /> },
+    { path: "/resume", element:<Resume/>},
     {
       path: "/admin",
       element: <AdminLayout />,

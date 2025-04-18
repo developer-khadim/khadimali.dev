@@ -53,16 +53,6 @@ const Navbar = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const user = userData?.user || {
-    name: "Khadim Ali",
-    email: "ab.ali.soomro@gmail.com",
-    aboutText:
-      "Experienced React Frontend Developer specializing in crafting scalable, high-performance web applications.",
-    phone: "+923052879926",
-    githubURL: "https://github.com/developer-abdulali",
-    linkedinURL: "https://www.linkedin.com/in/abdulali12/",
-  };
-
   return (
     <>
       {/* Progress Bar */}
@@ -153,73 +143,6 @@ const Navbar = () => {
                     <span>{item.label}</span>
                   </a>
                 ))}
-              </div>
-
-              <div className="mt-5 flex items-center justify-center gap-1.5 sm:gap-3 md:gap-4">
-                <motion.a
-                  custom={0}
-                  variants={socialIconVariants}
-                  whileTap={{ scale: 0.9 }}
-                  href="https://wa.me/+923052879926"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group flex items-center justify-center w-10 h-10 text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-800 rounded-full p-2 hover:bg-primary/10 hover:shadow-md transition-all duration-300"
-                  aria-label="Chat with me on WhatsApp"
-                >
-                  <FaWhatsapp className="w-5 h-5 group-hover:text-primary group-hover:rotate-6 transition-all duration-300" />
-                </motion.a>
-
-                <motion.a
-                  custom={0}
-                  variants={socialIconVariants}
-                  whileTap={{ scale: 0.9 }}
-                  href="#"
-                  // href={`mailto:${user?.email}`}
-                  className="group flex items-center justify-center w-10 h-10 text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-800 rounded-full p-2 hover:bg-primary/10 hover:shadow-md transition-all duration-300"
-                  aria-label="Email me"
-                >
-                  <HiOutlineMail className="w-5 h-5 group-hover:text-primary group-hover:rotate-6 transition-all duration-300" />
-                </motion.a>
-
-                <motion.a
-                  custom={1}
-                  variants={socialIconVariants}
-                  whileHover={{ rotate: 6 }}
-                  href="#"
-                  // href={user?.githubURL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group flex items-center justify-center w-10 h-10 text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-800 rounded-full p-2 hover:bg-primary/10 hover:shadow-md transition-all duration-300"
-                  aria-label="Visit my GitHub"
-                >
-                  <FiGithub className="w-5 h-5 group-hover:text-primary transition-all duration-300" />
-                </motion.a>
-
-                <motion.a
-                  custom={2}
-                  variants={socialIconVariants}
-                  whileHover={{ rotate: 5 }}
-                  href="#"
-                  // href={user?.linkedinURL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group flex items-center justify-center w-10 h-10 text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-800 rounded-full p-2 hover:bg-primary/10 hover:shadow-md transition-all duration-300"
-                  aria-label="Visit my LinkedIn"
-                >
-                  <LuLinkedin className="w-5 h-5 group-hover:text-primary transition-all duration-300" />
-                </motion.a>
-
-                <motion.a
-                  custom={3}
-                  variants={socialIconVariants}
-                  whileHover={{ rotate: 6 }}
-                  href="#"
-                  // href={`tel:${user?.phone}`}
-                  className="group flex items-center justify-center w-10 h-10 text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-800 rounded-full p-2 hover:bg-primary/10 hover:shadow-md transition-all duration-300"
-                  aria-label="Call me"
-                >
-                  <FiPhone className="w-5 h-5 group-hover:text-primary transition-all duration-300" />
-                </motion.a>
               </div>
             </div>
           )}

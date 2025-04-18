@@ -1,14 +1,20 @@
-import React, { useState, useEffect } from "react";
-import { FaCss3Alt, FaHtml5, FaJs, FaNodeJs, FaReact } from "react-icons/fa";
+import React, { useState, useEffect } from 'react';
+import { FaReact, FaNodeJs, FaHtml5, FaCss3Alt, FaJs, FaCode } from 'react-icons/fa';
 import { SiNextdotjs } from "react-icons/si";
-import { RxDashboard } from "react-icons/rx";
-import { motion } from "framer-motion";
-import ProjectSection from "./ProjectSection";
-import { WorkCardContainerVariant } from "../../AnimationVariants/variants.";
+import { motion } from 'framer-motion';
+import ProjectSection from './ProjectSection';
+import { FiLoader } from 'react-icons/fi';
 
-const WorkCard = ({ projectsData }) => {
+const WorkCard = ({ projectsData, loading }) => {
+  // State for responsive slide count
   const [slideCount, setSlideCount] = useState(2);
+  const [categorizedProjects, setCategorizedProjects] = useState({
+    fullstack: [],
+    frontend: [],
+    htmlCssJs: []
+  });
 
+  // Set slide count based on screen size
   useEffect(() => {
     const handleResize = () => {
       const width = window.innerWidth;
@@ -19,125 +25,171 @@ const WorkCard = ({ projectsData }) => {
       }
     };
 
+    // Initial setup
     handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+    
+    // Add event listener
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // Transform API data to match expected format
-  const transformedProjects =
-    projectsData?.map((project) => ({
-      _id: project._id,
-      title: project.title,
-      description: project.description,
-      image: project.imageUrl,
-      liveLink: project.liveDemoUrl,
-      githubLink: project.githubUrl,
-      skills: project.technologies.map((tech) => ({ name: tech })),
-      isPinned: project.isPinned,
-      category: project.category,
-    })) || [];
+  // Categorize projects when data is loaded
+  useEffect(() => {
+    if (projectsData && projectsData.length > 0) {
+      const categorized = {
+        fullstack: [],
+        frontend: [],
+        htmlCssJs: []
+      };
 
-  // Group projects by category
-  const groupedProjects = transformedProjects.reduce((acc, project) => {
-    const category = project.category || "other";
-    if (!acc[category]) {
-      acc[category] = [];
+      projectsData.forEach(project => {
+        // Map API project format to our component format
+        const formattedProject = {
+          id: project._id,
+          title: project.title,
+          image: project.imageUrl || "https://via.placeholder.com/300",
+          description: project.description,
+          liveLink: project.liveDemoUrl,
+          githubLink: project.githubUrl,
+          skills: project.technologies.map(tech => ({
+            name: tech,
+            icon: getTechIcon(tech)
+          }))
+        };
+
+        // Categorize based on project category from backend
+        if (project.category === "Full Stack Project") {
+          categorized.fullstack.push(formattedProject);
+        } else if (project.category === "Frontend With React") {
+          categorized.frontend.push(formattedProject);
+        } else if (project.category === "HTML/CSS/JS") {
+          categorized.htmlCssJs.push(formattedProject);
+        } else {
+          // Fallback categorization if category is missing or invalid
+          if (project.technologies.some(tech => 
+              tech.toLowerCase().includes('node') && 
+              project.technologies.some(t => t.toLowerCase().includes('react')))) {
+            categorized.fullstack.push(formattedProject);
+          } else if (project.technologies.some(tech => 
+              tech.toLowerCase().includes('react'))) {
+            categorized.frontend.push(formattedProject);
+          } else if (project.technologies.some(tech => 
+              tech.toLowerCase().includes('html') || 
+              tech.toLowerCase().includes('css'))) {
+            categorized.htmlCssJs.push(formattedProject);
+          } else {
+            // Default to fullstack if no other category matches
+            categorized.fullstack.push(formattedProject);
+          }
+        }
+      });
+
+      setCategorizedProjects(categorized);
     }
-    acc[category].push(project);
-    return acc;
-  }, {});
+  }, [projectsData]);
 
-  // Define category sections with their display names and icons (updated to four categories)
-  const categorySections = [
-    {
-      category: "fullstack",
-      title: "FullStack Projects",
-      description: "End-to-end solutions with both frontend and backend",
-      icon: (
-        <div className="flex mr-4 relative">
-          <FaReact className="w-10 h-10 text-blue-500 animate-spin-slow" />
-          <SiNextdotjs className="w-10 h-10 text-black dark:text-white -ml-2" />
-          <FaNodeJs className="w-10 h-10 text-green-600 -ml-2" />
-        </div>
-      ),
-      gradientColors: "bg-gradient-to-b from-cyan-500 to-blue-500",
-      borderColor: "border-cyan-600",
-      shadowColor:
-        "shadow-[2px_2px_0px_0px_rgba(8,145,178,0.9)] hover:shadow-[3px_3px_0px_0px_rgba(8,145,178,1)]",
-    },
-    {
-      category: "frontend",
-      title: "Frontend Projects",
-      description: "Modern user interfaces and interactive web experiences",
-      icon: (
-        <div className="flex mr-4 relative">
-          <FaReact className="w-10 h-10 text-blue-500 animate-spin-slow" />
-          <SiNextdotjs className="w-10 h-10 text-black dark:text-white -ml-2" />
-        </div>
-      ),
-      gradientColors: "bg-gradient-to-b from-purple-500 to-indigo-500",
-      borderColor: "border-purple-600",
-      shadowColor:
-        "shadow-[2px_2px_0px_0px_rgba(124,58,237,0.9)] hover:shadow-[3px_3px_0px_0px_rgba(124,58,237,1)]",
-    },
-    {
-      category: "html-css-js",
-      title: "HTML/CSS/JS Projects",
-      description: "Static websites built with core web technologies",
-      icon: (
-        <div className="flex mr-4 relative">
-          <FaHtml5 className="w-10 h-10 text-[#DD4B25]" />
-          <FaCss3Alt className="w-10 h-10 text-[#2160AB] -ml-2" />
-          <FaJs className="w-10 h-10 text-[#EFD81D] -ml-2" />
-        </div>
-      ),
-      gradientColors: "bg-gradient-to-b from-yellow-500 to-orange-500",
-      borderColor: "border-yellow-600",
-      shadowColor:
-        "shadow-[2px_2px_0px_0px_rgba(202,138,4,0.9)] hover:shadow-[3px_3px_0px_0px_rgba(202,138,4,1)]",
-    },
-    {
-      category: "other",
-      title: "Other Projects",
-      description: "Miscellaneous projects and experiments",
-      icon: (
-        <div className="flex mr-4 relative">
-          <RxDashboard className="w-10 h-10 text-black dark:text-white" />
-        </div>
-      ),
-      gradientColors: "bg-gradient-to-b from-gray-500 to-gray-700",
-      borderColor: "border-gray-600",
-      shadowColor:
-        "shadow-[2px_2px_0px_0px_rgba(75,85,99,0.9)] hover:shadow-[3px_3px_0px_0px_rgba(75,85,99,1)]",
-    },
-  ];
+  // Helper function to get icon based on technology name
+  const getTechIcon = (tech) => {
+    const techLower = tech.toLowerCase();
+    const iconStyle = "w-4 h-4 transition-all duration-300 group-hover/skill:scale-125 group-hover/skill:rotate-12 group-hover/skill:animate-pulse";
+    
+    if (techLower.includes('react')) {
+      return <FaReact className={`${iconStyle} text-blue-500`} />;
+    } else if (techLower.includes('node')) {
+      return <FaNodeJs className={`${iconStyle} text-green-500`} />;
+    } else if (techLower.includes('html')) {
+      return <FaHtml5 className={`${iconStyle} text-orange-500`} />;
+    } else if (techLower.includes('css')) {
+      return <FaCss3Alt className={`${iconStyle} text-blue-500`} />;
+    } else if (techLower.includes('javascript') || techLower.includes('js')) {
+      return <FaJs className={`${iconStyle} text-yellow-500`} />;
+    } else if (techLower.includes('next')) {
+      return <SiNextdotjs className={`${iconStyle} text-black dark:text-white`} />;
+    } else {
+      // Default icon for other technologies
+      return <FaCode className={`${iconStyle} text-gray-500`} />;
+    }
+  };
+
+  // Container animation variant
+  const containerVariant = {
+    hidden: { opacity: 0 },
+    visible: { 
+      opacity: 1,
+      transition: { 
+        duration: 0.5,
+        staggerChildren: 0.3
+      }
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center py-12">
+        <FiLoader className="h-8 w-8 animate-spin text-blue-500" />
+        <span className="ml-3 text-gray-600 dark:text-gray-300">Loading projects...</span>
+      </div>
+    );
+  }
 
   return (
-    <motion.div
-      className="container mx-auto px-2 py-2"
-      variants={WorkCardContainerVariant}
+    <motion.div 
+      className="container mx-auto px-4 md:px-16 py-2"
+      variants={containerVariant}
       initial="hidden"
       animate="visible"
     >
-      {categorySections.map((section) => {
-        const projects = groupedProjects[section.category] || [];
-        if (projects?.length === 0) return null; // Skip empty sections
+      {/* FullStack Projects Section */}
+      <ProjectSection 
+        title="Full Stack Project"
+        description="End-to-end applications with frontend and backend integration"
+        icon={
+          <div className="flex mr-4 relative">
+            <FaReact className="w-10 h-10 text-blue-500 animate-spin-slow" />
+            <FaNodeJs className="w-10 h-10 text-green-500 -ml-2" />
+          </div>
+        }
+        projects={categorizedProjects.fullstack}
+        gradientColors="bg-gradient-to-b from-purple-600 to-indigo-600"
+        borderColor="border-purple-600"
+        shadowColor="shadow-[2px_2px_0px_0px_rgba(124,58,237,0.9)] hover:shadow-[3px_3px_0px_0px_rgba(124,58,237,1)]"
+        slideCount={slideCount}
+      />
 
-        return (
-          <ProjectSection
-            key={section.category}
-            title={section.title}
-            description={section.description}
-            icon={section.icon}
-            projects={projects}
-            gradientColors={section.gradientColors}
-            borderColor={section.borderColor}
-            shadowColor={section.shadowColor}
-            slideCount={slideCount}
-          />
-        );
-      })}
+      {/* Frontend With React Projects Section */}
+      <ProjectSection 
+        title="Frontend With React"
+        description="Modern user interfaces and interactive web experiences"
+        icon={
+          <div className="flex mr-4 relative">
+            <FaReact className="w-10 h-10 text-blue-500 animate-spin-slow" />
+            <SiNextdotjs className="w-10 h-10 text-black dark:text-white -ml-2" />
+          </div>
+        }
+        projects={categorizedProjects.frontend}
+        gradientColors="bg-gradient-to-b from-cyan-500 to-blue-500"
+        borderColor="border-cyan-600"
+        shadowColor="shadow-[2px_2px_0px_0px_rgba(8,145,178,0.9)] hover:shadow-[3px_3px_0px_0px_rgba(8,145,178,1)]"
+        slideCount={slideCount}
+      />
+      
+      {/* HTML/CSS/JS Projects Section */}
+      <ProjectSection 
+        title="HTML/CSS/JS"
+        description="Classic web development projects with vanilla technologies"
+        icon={
+          <div className="flex mr-4 relative">
+            <FaHtml5 className="w-10 h-10 text-orange-500" />
+            <FaCss3Alt className="w-10 h-10 text-blue-500 -ml-2" />
+            <FaJs className="w-10 h-10 text-yellow-500 -ml-2" />
+          </div>
+        }
+        projects={categorizedProjects.htmlCssJs}
+        gradientColors="bg-gradient-to-b from-yellow-500 to-orange-500"
+        borderColor="border-orange-500"
+        shadowColor="shadow-[2px_2px_0px_0px_rgba(249,115,22,0.9)] hover:shadow-[3px_3px_0px_0px_rgba(249,115,22,1)]"
+        slideCount={slideCount}
+      />
     </motion.div>
   );
 };

@@ -22,6 +22,23 @@ import { Link } from "react-router-dom";
 import { PROJECTS_API_ENDPOINT } from "../../../constant/data";
 import DeleteConfirmationModal from "../Components/DeleteConfirmationModal";
 
+// Consolidated Tailwind CSS class for project card styling
+const projectCardStyles = `
+  relative flex flex-col text-sm
+  bg-white dark:bg-gray-800
+  rounded-lg border-2 border-indigo-600
+  dark:text-white
+  shadow-[4px_4px_0px_0px_rgba(67,56,202,0.9)]
+  hover:shadow-[6px_6px_12px_0px_rgba(67,56,202,0.5)]
+  dark:shadow-[4px_4px_0px_0px_rgba(55,65,81,0.9)]
+  dark:hover:shadow-[6px_6px_12px_0px_rgba(55,65,81,0.5)]
+  hover:border-indigo-700 dark:hover:border-indigo-500
+  ease-in-out select-none
+  p-4 hover:bg-gray-50
+  transition-colors duration-200
+  overflow-hidden
+`;
+
 const Projects = () => {
   const dispatch = useDispatch();
   const projects = useSelector(selectProjects);
@@ -48,7 +65,6 @@ const Projects = () => {
     liveLink: "",
     githubLink: "",
     isPinned: false,
-    category: "",
   });
 
   useEffect(() => {
@@ -62,7 +78,7 @@ const Projects = () => {
       dispatch(setProjects(response.data));
     } catch (error) {
       console.error("Error fetching projects:", error);
-      toast.error("Failed to load projects. Please try again later.");
+      toast.error("Failed to load projects");
     } finally {
       setLoading(false);
     }
@@ -127,10 +143,6 @@ const Projects = () => {
       toast.error("Title is required");
       return;
     }
-    if (!newProject.category) {
-      toast.error("Category is required");
-      return;
-    }
 
     setSaving(true);
     try {
@@ -147,13 +159,13 @@ const Projects = () => {
       }
 
       const formData = new FormData();
-      formData.append("title", newProject.title);
-      formData.append("description", newProject.description);
-      formData.append("technologies", JSON.stringify(updatedTechnologies));
-      formData.append("liveDemoUrl", newProject.liveLink);
-      formData.append("githubUrl", newProject.githubLink);
-      formData.append("isPinned", newProject.isPinned);
-      formData.append("category", newProject.category);
+formData.append("title", newProject.title);
+formData.append("description", newProject.description);
+formData.append("category", newProject.category); // Changed from "Category" to "category"
+formData.append("technologies", JSON.stringify(updatedTechnologies));
+formData.append("liveDemoUrl", newProject.liveLink);
+formData.append("githubUrl", newProject.githubLink);
+formData.append("isPinned", newProject.isPinned);
       if (newProject.image instanceof File) {
         formData.append("image", newProject.image);
       }
@@ -198,7 +210,6 @@ const Projects = () => {
       liveLink: project.liveDemoUrl || "",
       githubLink: project.githubUrl || "",
       isPinned: project.isPinned || false,
-      category: project.category || "",
     });
     setPreviewImage(project.imageUrl);
     setIsEditMode(true);
@@ -249,12 +260,12 @@ const Projects = () => {
       _id: null,
       title: "",
       description: "",
+      category: "",
       image: "https://via.placeholder.com/300",
       technologies: [],
       liveLink: "",
       githubLink: "",
       isPinned: false,
-      category: "",
     });
     setPreviewImage("https://via.placeholder.com/300");
     setIsModalOpen(false);
@@ -265,23 +276,6 @@ const Projects = () => {
   const handleButtonClick = () => {
     setIsEditMode(false);
     setIsModalOpen(true);
-  };
-
-  // Function to format category display
-  const formatCategory = (category) => {
-    if (!category) return "N/A";
-    switch (category) {
-      case "frontend":
-        return "Frontend";
-      case "fullstack":
-        return "FullStack";
-      case "html-css-js":
-        return "HTML/CSS/JS";
-      case "other":
-        return "Other";
-      default:
-        return category;
-    }
   };
 
   return (
@@ -307,114 +301,85 @@ const Projects = () => {
         </div>
       ) : (
         <>
-          <div className="bg-white dark:bg-gray-900 rounded-xl overflow-hidden">
-            {projects?.length === 0 ? (
-              <div className="text-center py-16">
-                <h3 className="text-xl text-gray-600 dark:text-gray-400 mt-4">
-                  No projects found
-                </h3>
+          <div className="bg-white dark:bg-gray-900">
+            <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-800">
+              <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-100">
+                All Projects
+              </h2>
+            </div>
+            <div className="overflow-x-auto">
+              {/* Convert table to div-based layout for better card styling */}
+              <div className="space-y-4 p-4">
+                {projects.map((project) => (
+                  <div
+                    key={project._id}
+                    className={projectCardStyles}
+                  >
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
+                      {/* Project Info */}
+                      <div className="flex items-center space-x-3">
+                        <img
+                          src={project.imageUrl}
+                          alt={project.title}
+                          className="w-10 h-10 rounded-md object-cover"
+                        />
+                        <span className="text-sm font-medium text-gray-900 dark:text-white">
+                          {project.title}
+                        </span>
+                      </div>
+
+                      {/* Technologies */}
+                      <div className="flex flex-wrap gap-2 mt-2 sm:mt-0">
+                        {project.technologies.map((tech, index) => (
+                          <span
+                            key={index}
+                            className="px-2 py-1 text-xs rounded-full bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200"
+                          >
+                            {tech}
+                          </span>
+                        ))}
+                      </div>
+{/* categories  */}
+<div className="flex flex-wrap gap-2 mt-2 sm:mt-0">
+  {project.category && (
+    <span
+      className="px-2 py-1 text-xs rounded-full bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200"
+    >
+      {project.category}
+    </span>
+  )}
+</div>
+
+                      {/* Actions */}
+                      <div className="flex space-x-3 mt-2 sm:mt-0">
+                        <ReusableBtn
+                          as={Link}
+                          to={project.liveDemoUrl}
+                          icon={<FiExternalLink className="h-5 w-5" />}
+                          titleText="View Site"
+                          className="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-200 hover:underline"
+                          target="_blank"
+                          disabled={!project.liveDemoUrl}
+                          isMr={false}
+                        />
+                        <ReusableBtn
+                          onClick={() => handleEdit(project)}
+                          icon={<FiEdit2 className="h-5 w-5" />}
+                          isMr={false}
+                          titleText="Edit"
+                        />
+                        <ReusableBtn
+                          onClick={() => handleDelete(project)}
+                          icon={<FiTrash2 className="h-5 w-5" />}
+                          isMr={false}
+                          titleText="Delete"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                ))}
               </div>
-            ) : (
-              <>
-                <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-800">
-                  <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-100">
-                    All Projects
-                  </h2>
-                </div>
-                <div className="overflow-x-auto">
-                  <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-800">
-                    <thead className="bg-gray-50 dark:bg-gray-800">
-                      <tr>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                          Project
-                        </th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                          Category
-                        </th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                          Technologies
-                        </th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                          Actions
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-gray-200 dark:divide-gray-800">
-                      {projects?.map((project) => (
-                        <tr
-                          key={project._id}
-                          className="
-                           relative text-sm border border-indigo-600 dark:text-white
-              shadow-[4px_4px_0px_0px_rgba(67,56,202,0.9)]
-              hover:shadow-[6px_6px_12px_0px_rgba(67,56,202,0.5)]
-              dark:shadow-[4px_4px_0px_0px_rgba(55,65,81,0.9)]
-              dark:hover:shadow-[6px_6px_12px_0px_rgba(55,65,81,0.5)]
-              hover:border-indigo-700 dark:hover:border-indigo-500
-              ease-in-out select-none transition-colors duration-200 
-                          hover:bg-gray-50 dark:hover:bg-gray-800"
-                        >
-                          <td className="px-6 py-4 whitespace-nowrap">
-                            <div className="flex items-center">
-                              <img
-                                src={project.imageUrl}
-                                alt={project.title}
-                                className="w-10 h-10 rounded-md mr-3 object-cover"
-                              />
-                              <span className="text-sm font-medium text-gray-900 dark:text-white">
-                                {project.title}
-                              </span>
-                            </div>
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap">
-                            <span className="text-sm text-gray-900 dark:text-white">
-                              {formatCategory(project.category)}
-                            </span>
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap">
-                            <div className="flex flex-wrap gap-2">
-                              {project.technologies.map((tech, index) => (
-                                <span
-                                  key={index}
-                                  className="px-2 py-1 text-xs rounded-full bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200"
-                                >
-                                  {tech}
-                                </span>
-                              ))}
-                            </div>
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap">
-                            <div className="flex space-x-3">
-                              <ReusableBtn
-                                as={Link}
-                                to={project.liveDemoUrl}
-                                icon={<FiExternalLink className="h-5 w-5" />}
-                                titleText="View Site"
-                                className="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-200 hover:underline"
-                                target="_blank"
-                                disabled={!project.liveDemoUrl}
-                                isMr={false}
-                              />
-                              <ReusableBtn
-                                onClick={() => handleEdit(project)}
-                                icon={<FiEdit2 className="h-5 w-5" />}
-                                isMr={false}
-                                titleText="Edit"
-                              />
-                              <ReusableBtn
-                                onClick={() => handleDelete(project)}
-                                icon={<FiTrash2 className="h-5 w-5" />}
-                                isMr={false}
-                                titleText="Delete"
-                              />
-                            </div>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              </>
-            )}
+            </div>
           </div>
 
           {isModalOpen && (
